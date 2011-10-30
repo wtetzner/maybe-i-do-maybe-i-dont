@@ -32,9 +32,12 @@ namespace org.bovinegenius.maybe {
   public class Maybe {
     public static T Do<T>(Expression<Func<T>> expr) {
       var newTree = ConvertExpr(expr.Body);
-      var compiled = newTree.Compile();
-      var result = compiled.DynamicInvoke();
-      return (T)(result);
+      return (T)newTree.Compile().DynamicInvoke();
+    }
+
+    public static Func<T> Compile<T>(Expression<Func<T>> expr) {
+      var newTree = ConvertExpr(expr.Body);
+      return (Func<T>)newTree.Compile();
     }
 
     private static LambdaExpression ConvertExpr(Expression expr) {
