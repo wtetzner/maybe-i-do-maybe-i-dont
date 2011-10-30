@@ -35,8 +35,7 @@ namespace org.bovinegenius.maybe {
     }
 
     public static Func<T> Compile<T>(Expression<Func<T>> expr) {
-      var newTree = ConvertExpr(expr.Body);
-      return (Func<T>)newTree.Compile();
+      return (Func<T>)ConvertExpr(expr.Body).Compile();
     }
 
     private static LambdaExpression ConvertExpr(Expression expr) {
@@ -44,10 +43,9 @@ namespace org.bovinegenius.maybe {
           || expr.NodeType == ExpressionType.Call) {
             var chain = MemberChain(expr);
             var first = (Expression)chain.First().Value;
-            var last = (Expression)chain.Last().Value;
             var body = first.NodeType == ExpressionType.MemberAccess ? ((MemberExpression)first).Expression :
                                                                        ((MethodCallExpression)first).Object;
-        var lambda = MemberChain(expr)
+        var lambda = chain
           .Select((x) => { if (x.Value.NodeType == ExpressionType.MemberAccess) {
             return (Expression)Expression.MakeMemberAccess(Expression.Parameter(x.Key, "x"), ((MemberExpression)x.Value).Member);
           } else {
