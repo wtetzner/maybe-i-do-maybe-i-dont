@@ -1,4 +1,4 @@
-﻿Maybe I Do, Maybe I don't
+﻿Maybe I Do, Maybe I Don't
 ---------
 
 This allows you do chain methods in the Maybe monad.
