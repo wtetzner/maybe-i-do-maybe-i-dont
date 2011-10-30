@@ -31,8 +31,7 @@ using System.Reflection;
 namespace org.bovinegenius.maybe {
   public class Maybe {
     public static T Do<T>(Expression<Func<T>> expr) {
-      var newTree = ConvertExpr(expr.Body);
-      return (T)newTree.Compile().DynamicInvoke();
+      return Compile(expr).Invoke();
     }
 
     public static Func<T> Compile<T>(Expression<Func<T>> expr) {
